@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Notes</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+        <meta charset="UTF-8">
+        <title>Notes</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
 </head>
- <header >
-    <nav>
-       <span><a href="/todo" method="GET">Todo</a></span>
-       <span><a method="GET" href="/logout">Log-out</a></span>
-   
-    </nav>
-   
-  </header>
+<header>
+        <nav>
+                <span><a href="/todo" method="GET">Todo</a></span>
+                <span><a method="GET" href="/logout">Log-out</a></span>
+
+        </nav>
+
+</header>
+
 <body>
- 
-  <form action="/note" method="POST">
-   <input type="text" placeholder="Title" name="title"  id="title"><br><br>
-   <textarea placeholder="Notes.." name="notes"id="notes" required="true"></textarea><br><br>
-   <button type="submit" id="note">Create Note</button>
-  </form>
+
+        <form action="/note" method="POST">
+                <input type="text" placeholder="Title" name="title" id="title"><br><br>
+                <textarea placeholder="Notes.." name="notes" id="notes" required="true"></textarea><br><br>
+                <button type="submit" id="note">Create Note</button>
+        </form>
 
 
-  <h3>Notes:</h3>
-  <ul >
-  <% for(var i=0; i< notes.length; i++) {  %>
-    <li class="note"><strong><%= notes[i].title %></strong><br><%= notes[i].notes%> </li>
-  <%  } %>
-  </ul>
-  
-<!--<script type="text/javascript" src="notes.js"></script>-->
+        <h3>Notes:</h3>
+        <ul>
+                <% for(var i=0; i< notes.length; i++) {  %>
+                        <li class="note"><strong><%= notes[i].title %></strong><br>
+                                <%= notes[i].notes%>
+                        </li>
+                        <%  } %>
+        </ul>
+
+        <!--<script type="text/javascript" src="notes.js"></script>-->
 </body>
+
 </html>
