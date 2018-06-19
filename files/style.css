@@ -12,6 +12,25 @@ form {
 }
 
 
+a {
+        color: red;
+        padding-left: 5px;
+        text-decoration: none;
+
+}
+
+a:visited {
+
+        color: red;
+
+}
+
+a:hover {
+        color: #e6e6fa ;
+        background-color:#23282e; 
+        
+}
+
 }
 
 div {
@@ -24,7 +43,7 @@ h1 {
         max-width: 40vw;
         margin: auto;
         font-family: Snell Roundhand;
-        color: #0000ff;
+        color:#23282e ;
 }
 
 

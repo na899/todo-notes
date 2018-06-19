@@ -14,6 +14,10 @@
 </header>
 
 <body>
+        <h2> TODO       </h2>
+        <h4>
+                Create todo item by clicking add. And you can check and uncheck them by clicking on the item.
+        </h4>
 
         <form action="/todo" method="POST" id='add'>
                 <input type="text" placeholder="Add todo" name="todo" id="todo" required="true">
@@ -23,9 +27,7 @@
 
         <ul>
                 <% for(var i=0; i< todos.length; i++) {  %>
-                        <li onclick="update(this)" flag="<%= todos[i].flag %>">
-                                <%= todos[i].todo %>
-                        </li>
+                        <li onclick="update(this)" flag="<%= todos[i].flag %>"><%= todos[i].todo %></li>
                         <%  } %>
         </ul>
         <script type="text/javascript" src="todo.js"></script>

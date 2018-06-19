@@ -15,11 +15,10 @@ module.exports = function(app) {
 
         app.get('/logout', (req, res) => {
 
-                if (req.session) {
+                if (req.session.user) {
 
-                        userID = 0;
-                        req.logout();
-                        req.session = {};
+                        req.session.user = undefined;
+
                         return res.redirect('/login');
 
                 }
@@ -28,9 +27,9 @@ module.exports = function(app) {
 
         app.get('/notes', (req, res) => {
 
-                if (req.session && userID) {
+                if (req.session.user && userID) {
 
-                        console.log("heyyy");
+                        
                         console.log('get request');
 
                         db.collection('notes' + userID).find().toArray(function(err, results) {
@@ -47,6 +46,7 @@ module.exports = function(app) {
                         var err = new Error('You must be logged in to view this page.');
                         err.status = 401;
                         console.log(err);
+                        res.send("You must be logged in to view this page.");
                 }
 
 

@@ -1,7 +1,7 @@
 module.exports = function(app) {
 
         var bodyParser = require('body-parser');
-
+        var session = require('express-session');
         const MongoClient = require('mongodb').MongoClient
 
 
@@ -20,16 +20,12 @@ module.exports = function(app) {
 
         app.get('/logout', (req, res) => {
 
-                if (req.session) {
-                        // delete session object
-                        req.session.destroy(function(err) {
-                                if (err) {
-                                        console.log(err);
-                                }
-                                else {
-                                        return res.redirect('/login');
-                                }
-                        });
+                if (req.session.user) {
+                       
+                        req.session.user = undefined;
+                        
+                        return res.redirect('/login');
+
                 }
         })
 
@@ -62,21 +58,19 @@ module.exports = function(app) {
 
 
         app.put('/todo', (req, res) => {
-                console.log(req.body.flag);
-                db.collection('todos' + userID).updateOne({
-                        todo: req.body.todo
+                console.log('heyyy')
+                console.log(req.body.todo);
+                db.collection("todos"+userID).updateOne({
+                        todo:req.body.todo
                 }, {
-
-
-                        $set: {
-                                flag: req.body.flag
+                        $set:{
+                                flag:req.body.flag
                         }
-                }, (err, result) => {
-
-                        if (err) return res.send(err)
-                        res.send(result)
-
-                })
+                }, function(err, result) {
+    if (err) throw err;
+    console.log("1 document updated");
+    res.send(result)
+  });
 
         })
 

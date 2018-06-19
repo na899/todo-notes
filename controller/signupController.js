@@ -12,11 +12,7 @@ module.exports = function(app) {
 
                 db.collection('users').save(item, (err, result) => {
                         if (err) return console.log(err)
-                        /*if(bcrypt.compareSync(item.cfpass, item.pass)) {
-                         console.log("yayyy")
-                        } else {
-                         console.log("wth")
-                        }*/
+                        
                         console.log('user added')
                         res.redirect('/signup')
                 })
