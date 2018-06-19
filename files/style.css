@@ -1,0 +1,106 @@
+body{
+	padding: 50px;
+	margin: auto;
+	text-align:center;
+background-color:#e6e6fa;
+}
+
+form{
+padding: 20px;
+
+}
+
+
+}
+div{text-align: center;
+	margin:auto;
+}
+
+
+h1{ 	max-width: 40vw;
+	    margin: auto;
+	font-family: Snell Roundhand;
+	color: #0000ff;
+}
+
+ 
+button{
+	padding: 10px;
+    width: 80px;
+    height: 40px;
+    background: #23282e;
+    border-radius: 10%;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+
+ }
+
+
+ ul{
+ 	 list-style-type:none;
+    padding: 0;
+    margin: 0;
+ }
+ .login{
+    width: 200px;
+    padding: 5px;
+ }
+
+ li{
+    margin: auto;
+    text-align: left;
+ 	 width: 500px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-family: arial;
+    font-size: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    border: ridge;
+ }
+
+
+li:hover{
+    text-decoration: line-through;
+}
+
+
+#todo{
+    margin: auto;
+    text-align: center;
+    height: 30px;
+    width: 300px;
+ }
+
+
+header{
+    text-align: right;
+    font-family: Snell Roundhand;
+}
+
+span{
+    padding-left: 20px;
+}
+
+
+#title{
+height: 20px;
+    width: 350px;
+}
+#notes{
+    text-align: left;
+    width:350px;
+    height: 150px;
+}
+
+#note{
+    width: 120px;
+}
+
+.note:hover{
+    text-decoration-line: none;
+    background-color: grey;
+}
+}

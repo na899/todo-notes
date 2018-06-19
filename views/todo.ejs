@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TODO List</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<header>
+  <nav>
+       <span> <a method="GET" href="/notes">Notes</a></span>
+       <span><a method="GET" href="/logout">Log-out</a></span>
+  </nav>
+</header>
+<body>
+  
+  <form action="/todo" method="POST" id='add'>
+   <input type="text" placeholder="Add todo" name="todo"   id="todo" required="true">
+  <button type="submit">ADD</button>
+  
+  </form>
+  
+    <ul >
+  <% for(var i=0; i< todos.length; i++) {  %>
+    <li onclick="update(this)" flag="<%= todos[i].flag %>"><%= todos[i].todo %></li>
+  <%  } %>
+  </ul>
+<script type="text/javascript" src="todo.js"></script>
+</body>
+</html>
