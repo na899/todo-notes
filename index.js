@@ -7,13 +7,7 @@ var session=require('express-session');
 var db;
 var userID;
 
-/*MongoClient.connect('mongodb://naveena:nav123@ds163850.mlab.com:63850/todolist', (err, client) => {
-  if (err) return console.log(err)
-  db = client.db('todolist') 
-  app.listen(3000, () => {
-    console.log('listening on 3000')
-  })
-})*/
+
 
 var signupController=require('./controller/signupController');
 var todoController=require('./controller/todoController');
@@ -22,6 +16,8 @@ var noteController=require('./controller/noteController');
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
+
+
 app.use(session({
   secret: 'spider',
   resave: true,
@@ -31,6 +27,7 @@ app.use(session({
 
 
 app.use(express.static('./files'));
+
 signupController(app);
 loginController(app);
 todoController(app);

@@ -8,18 +8,18 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({
-                extended: true
-        }));
+        app.use(bodyParser.urlencoded({extended: true  }));
         app.use(bodyParser.json());
 
+
+        //'/login' is login page
         app.get('/login', (req, res) => {
 
                 res.render('login.ejs');
 
         });
 
-
+        // '/'is the todo page
         app.post('/', (req, res) => {
                 var item = req.body;
                 var check = 0;

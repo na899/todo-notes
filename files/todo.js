@@ -1,6 +1,11 @@
+
+
+
+//displays todolist according to the flag set
 var items = document.getElementsByTagName('li');
 for (var i = 0; i < items.length; i++) {
         items[i].setAttribute('id', i);
+        //flag 1 means checked ,0 means unchecked
         items[i].setAttribute('status', items[i].getAttribute('flag'));
         console.log(items[i].getAttribute('flag'));
         if (items[i].getAttribute('status') == 0) {
@@ -13,11 +18,7 @@ for (var i = 0; i < items.length; i++) {
 }
 
 
-
-function del(evt) {
-
-}
-
+//updates flag when clicked
 function update(evt) {
         var item = document.getElementById(evt.id);
 

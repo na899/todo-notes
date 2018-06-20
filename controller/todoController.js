@@ -5,9 +5,7 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({
-                extended: true
-        }));
+        app.use(bodyParser.urlencoded({  extended: true  }));
         app.use(bodyParser.json());
 
         MongoClient.connect('mongodb://naveena:nav123@ds163850.mlab.com:63850/todolist', (err, client) => {
@@ -21,9 +19,9 @@ module.exports = function(app) {
         app.get('/logout', (req, res) => {
 
                 if (req.session.user) {
-                       
+
                         req.session.user = undefined;
-                        
+
                         return res.redirect('/login');
 
                 }
@@ -33,14 +31,30 @@ module.exports = function(app) {
 
 
         app.get('/', (req, res) => {
-                console.log('get request');
-                console.log(req.body);
-                db.collection('todos' + userID).find().toArray(function(err, results) {
-                        console.log(results)
-                        res.render('todo.ejs', {
-                                todos: results
-                        });
-                })
+
+
+                if (req.session.user && userID) {
+
+
+                        console.log('get request');
+                        console.log(req.body);
+                        db.collection('todos' + userID).find().toArray(function(err, results) {
+                                console.log(results)
+                                res.render('todo.ejs', {
+                                        todos: results
+                                });
+                        })
+
+                }
+                else {
+                        var err = new Error('You must be logged in to view this page.');
+                        err.status = 401;
+                        console.log(err);
+                        res.send("You must be logged in to view this page.");
+                }
+
+
+
 
         });
 
@@ -60,17 +74,17 @@ module.exports = function(app) {
         app.put('/todo', (req, res) => {
                 console.log('heyyy')
                 console.log(req.body.todo);
-                db.collection("todos"+userID).updateOne({
-                        todo:req.body.todo
+                db.collection("todos" + userID).updateOne({
+                        todo: req.body.todo
                 }, {
-                        $set:{
-                                flag:req.body.flag
+                        $set: {
+                                flag: req.body.flag
                         }
                 }, function(err, result) {
-    if (err) throw err;
-    console.log("1 document updated");
-    res.send(result)
-  });
+                        if (err) throw err;
+                        console.log("1 document updated");
+                        res.send(result)
+                });
 
         })
 

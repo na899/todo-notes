@@ -5,14 +5,12 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({
-                extended: true
-        }));
+        app.use(bodyParser.urlencoded({ extended: true    }));
         app.use(bodyParser.json());
 
 
-
-
+  
+       //when logged out redirects to login page
         app.get('/logout', (req, res) => {
 
                 if (req.session.user) {
@@ -24,7 +22,7 @@ module.exports = function(app) {
                 }
         })
 
-
+        //'/notes' notes page
         app.get('/notes', (req, res) => {
 
                 if (req.session.user && userID) {
