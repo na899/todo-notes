@@ -2,15 +2,15 @@ module.exports = function(app) {
         var bcrypt = require('bcrypt');
 
 
-
+        var expressSanitizer = require('express-sanitizer');
         var bodyParser = require('body-parser');
 
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({extended: true  }));
+        app.use(bodyParser.urlencoded({ extended: true }));
         app.use(bodyParser.json());
-
+        app.use(expressSanitizer());
 
         //'/login' is login page
         app.get('/login', (req, res) => {
@@ -21,6 +21,8 @@ module.exports = function(app) {
 
         // '/'is the todo page
         app.post('/', (req, res) => {
+
+                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
                 var item = req.body;
                 var check = 0;
                 db.collection("users").find({
@@ -45,6 +47,7 @@ module.exports = function(app) {
                                 }
                                 else {
                                         res.send("Wrong Credentials!")
+
                                         // Passwords don't match
                                 }
                         }

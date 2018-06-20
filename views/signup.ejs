@@ -18,8 +18,8 @@
 
         </header>
         <form action="/signup" method="POST">
-                <input type="text" placeholder="Username" name="username" class="login" id="username" required="true"><br><br>
-                <input type="password" placeholder="Password" name="pass" class="login" id="pass" required="true"><br><br>
+                <input type="text" placeholder="Username" maxlength="12" name="username" class="login" id="username" required="true"><br><br>
+                <input type="password" placeholder="Password" minlength="6" maxlength="12" name="pass" class="login" id="pass" required="true"><br><br>
                 <button type="submit">Sign-up</button>
         </form>
 

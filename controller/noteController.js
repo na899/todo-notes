@@ -1,16 +1,16 @@
 module.exports = function(app) {
 
         var bodyParser = require('body-parser');
-
+        var expressSanitizer = require('express-sanitizer');
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({ extended: true    }));
+        app.use(bodyParser.urlencoded({ extended: true }));
         app.use(bodyParser.json());
+        app.use(expressSanitizer());
 
 
-  
-       //when logged out redirects to login page
+        //when logged out redirects to login page
         app.get('/logout', (req, res) => {
 
                 if (req.session.user) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
 
                 if (req.session.user && userID) {
 
-                        
+
                         console.log('get request');
 
                         db.collection('notes' + userID).find().toArray(function(err, results) {
@@ -44,7 +44,8 @@ module.exports = function(app) {
                         var err = new Error('You must be logged in to view this page.');
                         err.status = 401;
                         console.log(err);
-                        res.send("You must be logged in to view this page.");
+                        res.redirect('/login');
+
                 }
 
 
@@ -54,14 +55,30 @@ module.exports = function(app) {
 
 
         app.post('/note', (req, res) => {
-                var item = req.body;
+                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
 
-                db.collection('notes' + userID).save(item, (err, result) => {
-                        if (err) return console.log(err)
+                if (req.session.user && userID) {
 
-                        console.log('saved to database')
-                        res.redirect('/notes')
-                })
+                        var item = req.body;
+
+                        db.collection('notes' + userID).save(item, (err, result) => {
+                                if (err) return console.log(err)
+
+                                console.log('saved to database')
+                                res.redirect('/notes')
+                        })
+
+
+
+                }
+                else {
+                        var err = new Error('You must be logged in to view this page.');
+                        err.status = 401;
+                        console.log(err);
+                        res.redirect('/login');
+                }
+
+
         })
 
 
