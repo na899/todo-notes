@@ -8,7 +8,9 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.urlencoded({
+                extended: true
+        }));
         app.use(bodyParser.json());
         app.use(expressSanitizer());
 
@@ -32,25 +34,31 @@ module.exports = function(app) {
                         check = result[0];
 
 
-                        if (check != 0) {
-                                if (bcrypt.compareSync(item.password, check.pass)) {
-                                        userID = item.username;
-                                        console.log(userID);
-                                        req.session.user = userID;
-                                        console.log(req.session.user);
-                                        db.collection('todos' + userID).find().toArray(function(err, results) {
 
-                                                res.render('todo.ejs', {
-                                                        todos: results
-                                                })
+                        if (bcrypt.compareSync(item.password, check.pass)) {
+                                userID = item.username;
+                                console.log(userID);
+                                req.session.user = userID;
+                                console.log(req.session.user);
+
+                                db.collection('users').find({
+                                        username: userID
+                                }).forEach(function(doc) {
+                                        if (doc.todos == undefined)
+                                                doc.todos = [];
+                                        res.render('todo.ejs', {
+                                                todos: doc.todos
                                         })
-                                }
-                                else {
-                                        res.send("Wrong Credentials!")
+                                })
 
-                                        // Passwords don't match
-                                }
+
                         }
+                        else {
+                                res.send("Wrong Credentials!")
+
+                                // Passwords don't match
+                        }
+
 
                 });
 

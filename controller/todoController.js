@@ -5,7 +5,9 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
         var expressSanitizer = require('express-sanitizer');
 
-        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.urlencoded({
+                extended: true
+        }));
         app.use(bodyParser.json());
         app.use(expressSanitizer());
         MongoClient.connect('mongodb://naveena:nav123@ds163850.mlab.com:63850/todolist', (err, client) => {
@@ -38,12 +40,20 @@ module.exports = function(app) {
 
                         console.log('get request');
                         console.log(req.body);
-                        db.collection('todos' + userID).find().toArray(function(err, results) {
-                                console.log(results)
+
+
+                        db.collection('users').find({
+                                username: userID
+                        }).forEach(function(doc) {
+                                if (doc.todos == undefined)
+                                        doc.todos = [];
                                 res.render('todo.ejs', {
-                                        todos: results
-                                });
+                                        todos: doc.todos
+                                })
                         })
+
+
+
 
                 }
                 else {
@@ -59,19 +69,36 @@ module.exports = function(app) {
         });
 
 
+
         app.post('/todo', (req, res) => {
+
 
                 if (req.session.user && userID) {
                         req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
                         var item = req.body;
                         item.flag = 0;
-                        db.collection('todos' + userID).save(item, (err, result) => {
-                                if (err) return console.log(err)
 
-                                console.log('saved to database')
-                                res.redirect('/')
+                        db.collection('users').find({
+                                username: userID
+                        }).forEach(function(doc) {
+                                var a;
+                                if (doc.todos == undefined)
+                                        doc.todos = [];
+
+                                for (var i in doc.todos) {
+                                        console.log(doc.todos[i].todo);
+                                        a = i;
+                                }
+                                console.log(doc);
+
+
+                                a = doc.todos.length;
+                                //console.log(doc.todos[a]);
+                                if (doc.todos[a] == undefined)
+                                        doc.todos[a] = item;
+                                db.collection('users').save(doc);
+                                res.redirect('/');
                         })
-
                 }
                 else {
                         var err = new Error('You must be logged in to view this page.');
@@ -90,21 +117,38 @@ module.exports = function(app) {
 
                         req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
                         console.log('heyyy')
-                        console.log(req.body.todo);
-                        db.collection("todos" + userID).updateOne({
-                                todo: req.body.todo
-                        }, {
-                                $set: {
-                                        flag: req.body.flag
+                        console.log(req.body.todos);
+
+
+                        db.collection('users').find({
+                                username: userID
+                        }).forEach(function(doc) {
+                                var a;
+                                if (doc.todos == undefined)
+                                        doc.todos = [];
+
+                                for (var i in doc.todos) {
+                                        if (doc.todos[i].todo == req.body.todo)
+                                                a = i;
                                 }
-                        }, function(err, result) {
-                                if (err) console.log('shitt');
-                                console.log("1 document updated");
-                                res.send(result)
-                        });
+                                console.log(doc);
+
+
+                                setTimeout(function() {
+                                        doc.todos[a] = req.body;
+                                        db.collection('users').save(doc);
+                                        res.redirect('/');
+
+                                }, 500)
+                        })
+
+
+
+
 
 
                 }
+
                 else {
                         var err = new Error('You must be logged in to view this page.');
                         err.status = 401;
@@ -114,8 +158,6 @@ module.exports = function(app) {
 
 
         })
-
-
 
 
 

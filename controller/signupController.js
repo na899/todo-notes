@@ -18,16 +18,18 @@ module.exports = function(app) {
                         username: item.username
                 }).toArray(function(err, result) {
                         if (err) throw err;
-                        exist = 0;
+                        if(result[0])
+                            exist=0;
+                       
 
 
+                 })
 
-
-
-                        if (exist == 0)
+                
+                setTimeout(function(){if (exist == 0)
                                 res.send('Username taken...Try a different name or Log in if you have an account');
                         else {
-
+                                console.log(exist);
 
                                 item.pass = bcrypt.hashSync(item.pass, 10);
 
@@ -39,7 +41,11 @@ module.exports = function(app) {
                                 })
 
                         }
-                })
+                    }, 1000);
+
+                
+
+                
 
 
         })

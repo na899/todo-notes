@@ -5,7 +5,9 @@ module.exports = function(app) {
         const MongoClient = require('mongodb').MongoClient
 
 
-        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.urlencoded({
+                extended: true
+        }));
         app.use(bodyParser.json());
         app.use(expressSanitizer());
 
@@ -30,14 +32,21 @@ module.exports = function(app) {
 
                         console.log('get request');
 
-                        db.collection('notes' + userID).find().toArray(function(err, results) {
-                                console.log(results)
 
+                        db.collection('users').find({
+                                username: userID
+                        }).forEach(function(doc) {
+                                if (doc.notes == undefined)
+                                        doc.notes = [];
 
                                 res.render('notes.ejs', {
-                                        notes: results
-                                });
+                                        notes: doc.notes
+                                })
                         })
+
+
+
+
 
                 }
                 else {
@@ -61,12 +70,26 @@ module.exports = function(app) {
 
                         var item = req.body;
 
-                        db.collection('notes' + userID).save(item, (err, result) => {
-                                if (err) return console.log(err)
 
-                                console.log('saved to database')
-                                res.redirect('/notes')
+                        db.collection('users').find({
+                                username: userID
+                        }).forEach(function(doc) {
+                                var a;
+                                if (doc.notes == undefined)
+                                        doc.notes = [];
+
+
+                                console.log(doc);
+
+
+                                a = doc.notes.length;
+                                //console.log(doc.todos[a]);
+                                if (doc.notes[a] == undefined)
+                                        doc.notes[a] = item;
+                                db.collection('users').save(doc);
+                                res.redirect('/notes');
                         })
+
 
 
 
