@@ -5,11 +5,18 @@ module.exports = function(app) {
 
         app.use(expressSanitizer());
         app.get('/signup', (req, res) => {
+            if(req.session.user!=undefined)
+                res.redirect('/');
+            else
                 res.render('signup.ejs');
+
 
         });
 
         app.post('/signup', (req, res) => {
+
+              
+
                 req.body.sanitized = req.sanitize(JSON.stringify(req.body));
                 var exist = 1;
                 var item = req.body;

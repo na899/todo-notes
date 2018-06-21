@@ -16,7 +16,9 @@ module.exports = function(app) {
 
         //'/login' is login page
         app.get('/login', (req, res) => {
-
+                 if(req.session.user!=undefined)
+                res.redirect('/');
+                else
                 res.render('login.ejs');
 
         });

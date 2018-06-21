@@ -35,7 +35,8 @@ module.exports = function(app) {
 
                         db.collection('users').find({
                                 username: userID
-                        }).forEach(function(doc) {
+                        },function(err,doc) {
+                                if(err)throw err;
                                 if (doc.notes == undefined)
                                         doc.notes = [];
 
@@ -73,7 +74,8 @@ module.exports = function(app) {
 
                         db.collection('users').find({
                                 username: userID
-                        }).forEach(function(doc) {
+                        },function(err,doc) {
+                                if(err)throw err;
                                 var a;
                                 if (doc.notes == undefined)
                                         doc.notes = [];

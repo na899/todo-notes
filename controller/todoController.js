@@ -36,26 +36,26 @@ module.exports = function(app) {
 
 
                 if (req.session.user && userID) {
-                      
-
                         console.log('get request');
                         console.log(req.body);
 
-
-                        db.collection('users').find({
+                        db.collection('users').findOne({
                                 username: userID
-                        }).forEach(function(doc) {
+                        },function(err,doc) {
+                                if(err)throw err;
+
                                 if (doc.todos == undefined)
                                         doc.todos = [];
                                 res.render('todo.ejs', {
                                         todos: doc.todos
                                 })
-                        })
+                        
 
-
+                          })
 
 
                 }
+
                 else {
                         var err = new Error('You must be logged in to view this page.');
                         err.status = 401;
@@ -78,9 +78,10 @@ module.exports = function(app) {
                         var item = req.body;
                         item.flag = 0;
 
-                        db.collection('users').find({
+                        db.collection('users').findOne({
                                 username: userID
-                        }).forEach(function(doc) {
+                        },function(err,doc) {
+                                if(err)throw err;
                                 var a;
                                 if (doc.todos == undefined)
                                         doc.todos = [];
@@ -122,7 +123,8 @@ module.exports = function(app) {
 
                         db.collection('users').find({
                                 username: userID
-                        }).forEach(function(doc) {
+                        },function(err,doc) {
+                                if (err) throw err
                                 var a;
                                 if (doc.todos == undefined)
                                         doc.todos = [];
@@ -130,16 +132,13 @@ module.exports = function(app) {
                                 for (var i in doc.todos) {
                                         if (doc.todos[i].todo == req.body.todo)
                                                 a = i;
-                                }
-                                console.log(doc);
 
-
-                                setTimeout(function() {
                                         doc.todos[a] = req.body;
                                         db.collection('users').save(doc);
                                         res.redirect('/');
+                                }
+                                console.log(doc);
 
-                                }, 500)
                         })
 
 
