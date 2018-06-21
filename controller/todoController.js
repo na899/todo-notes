@@ -19,7 +19,7 @@ module.exports = function(app) {
         })
 
         app.get('/logout', (req, res) => {
-                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+               
                 if (req.session.user) {
 
                         req.session.user = undefined;
@@ -36,7 +36,7 @@ module.exports = function(app) {
 
 
                 if (req.session.user && userID) {
-                        req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+                      
 
                         console.log('get request');
                         console.log(req.body);
@@ -74,7 +74,7 @@ module.exports = function(app) {
 
 
                 if (req.session.user && userID) {
-                        req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+                        req.body.sanitized = req.sanitize(JSON.stringify(req.body));
                         var item = req.body;
                         item.flag = 0;
 
@@ -115,8 +115,8 @@ module.exports = function(app) {
         app.put('/todo', (req, res) => {
                 if (userID) {
 
-                        req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
-                        console.log('heyyy')
+                        req.body.sanitized = req.sanitize(JSON.stringify(req.body));
+                        
                         console.log(req.body.todos);
 
 

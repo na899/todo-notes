@@ -10,23 +10,17 @@ module.exports = function(app) {
         });
 
         app.post('/signup', (req, res) => {
-                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+                req.body.sanitized = req.sanitize(JSON.stringify(req.body));
                 var exist = 1;
                 var item = req.body;
 
-                db.collection("users").find({
+                db.collection("users").findOne({
                         username: item.username
-                }).toArray(function(err, result) {
+                },function(err, result) {
                         if (err) throw err;
-                        if(result[0])
+                        if(result!=undefined)
                             exist=0;
-                       
-
-
-                 })
-
-                
-                setTimeout(function(){if (exist == 0)
+                        if (exist == 0)
                                 res.send('Username taken...Try a different name or Log in if you have an account');
                         else {
                                 console.log(exist);
@@ -41,13 +35,19 @@ module.exports = function(app) {
                                 })
 
                         }
-                    }, 1000);
+                    
 
+
+
+                 })
+
+                
+              }) 
                 
 
                 
 
 
-        })
+        
 
 }

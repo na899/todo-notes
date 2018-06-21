@@ -64,7 +64,7 @@ module.exports = function(app) {
 
 
         app.post('/note', (req, res) => {
-                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+                req.body.sanitized = req.sanitize(JSON.stringify(req.body));
 
                 if (req.session.user && userID) {
 

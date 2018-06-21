@@ -24,7 +24,7 @@ module.exports = function(app) {
         // '/'is the todo page
         app.post('/', (req, res) => {
 
-                req.body.sanitized = req.sanitize(req.body.propertyToSanitize);
+                req.body.sanitized = req.sanitize(JSON.stringify(req.body));
                 var item = req.body;
                 var check = 0;
                 db.collection("users").find({
@@ -41,9 +41,10 @@ module.exports = function(app) {
                                 req.session.user = userID;
                                 console.log(req.session.user);
 
-                                db.collection('users').find({
+                                db.collection('users').findOne({
                                         username: userID
-                                }).forEach(function(doc) {
+                                },function(err,doc) {
+                                        if (err) throw err;
                                         if (doc.todos == undefined)
                                                 doc.todos = [];
                                         res.render('todo.ejs', {
